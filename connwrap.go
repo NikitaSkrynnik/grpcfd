@@ -59,6 +59,8 @@ type FDRecver interface {
 type FDTransceiver interface {
 	FDSender
 	FDRecver
+
+	Connection() net.Conn
 }
 
 type inodeKey struct {
@@ -349,6 +351,10 @@ func (w *connWrap) Read(b []byte) (n int, err error) {
 		return 0, err
 	}
 	return n, err
+}
+
+func (w *connWrap) Connection() net.Conn {
+	return w.Conn
 }
 
 // FromPeer - return grpcfd.FDTransceiver from peer.Peer
